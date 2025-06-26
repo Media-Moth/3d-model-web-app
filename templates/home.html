@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+{% block body %}
+<div class ="main">
+    <section class="hero">
+        
+    </section>
+    <section class="threecolumn">
+        {% for model in results %}
+        <div class="container">
+            <a href="/model/{{model[0]}}"><img src="../static/images/{{model[3]}}"></a>
+            <div class="w3-panel w3-black">
+                <p class="containertext">{{model[1]}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

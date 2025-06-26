@@ -1,0 +1,38 @@
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: rgb(62, 45, 70);
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+.main {
+  width: 70%;
+  margin: auto;
+}
+ol, ul {
+  list-style: none;
+}
+img {
+  width: 100%;
+  height: auto;
+}
+.hero {
+  height: 200px;
+}
+.threecolumn {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+.container {
+  background-color: aliceblue;
+}
+.containertext {
+  color: white;
+}
