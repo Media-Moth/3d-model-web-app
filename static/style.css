@@ -31,8 +31,29 @@ img {
   gap: 30px;
 }
 .container {
-  background-color: aliceblue;
+  background-color: #AFA8BA;
+  margin: 4px;
 }
 .containertext {
-  color: white;
+  color: black;
+  font-size: 25px;
+  text-align: center;
+}
+.round {
+  border-radius: 26px;
+}
+.thumbnailbackground {
+  background-color: #4A4453;
+}
+.roundup {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+.rounddown {
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  margin-top: 5px;
+}
+.transparent {
+  background-color: transparent;
 }

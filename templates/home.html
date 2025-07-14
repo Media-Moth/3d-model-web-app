@@ -6,11 +6,14 @@
     </section>
     <section class="threecolumn">
         {% for model in results %}
-        <div class="container">
-            <a href="/model/{{model[0]}}"><img src="../static/images/{{model[3]}}"></a>
-            <div class="w3-panel w3-black">
-                <p class="containertext">{{model[1]}}</p>
-            </div>
+        <div class="thumbnailbackground round">
+            <a href="/model/{{model[0]}}">
+                <!-- image inside div cuz image does not like being positioned properly -->
+                <div class="container transparent">
+                    <img src="../static/images/{{model[3]}}" class="roundup">
+                </div>
+            </a>
+            <p class="container containertext rounddown">{{model[1]}}</p>
         </div>
         {% endfor %}
     </section>
