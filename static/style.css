@@ -1,7 +1,7 @@
 html {
   box-sizing: border-box;
   font-size: 16px;
-  background-color: rgb(62, 45, 70);
+  background-color: #1E1A25;
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -56,4 +56,7 @@ img {
 }
 .transparent {
   background-color: transparent;
+}
+.pink {
+  background-color: #AFA8BA;
 }
