@@ -1,17 +1,21 @@
 {% extends "main.html" %}
 {% block body %}
-<div class ="main">
+<!-- <div class ="main"> -->
     <section class="hero">
+    
+    </section>
+    <p class="container containertext roundup modelText">{{result[1]}}</p>
+    <div class="centre" id="3dcanvas">
+    </div>
         
-    </section>
-    <section class="threecolumn">
-        <div class="thumbnailbackground round">
-            <div class="container transparent">
-                <img src="../static/images/{{result[3]}}" class="roundup">
-            </div>
-            <p class="container containertext rounddown">{{result[1]}}</p>
-        </div>
-    </section>
-
-</div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://esm.sh/three",
+                "three/addons/": "https://esm.sh/three/examples/jsm/"
+            }
+        }
+    </script>
+    <script src="{{ url_for('static', filename='main.js') }}" type="module"></script>
+<!-- </div> -->
 {% endblock %}

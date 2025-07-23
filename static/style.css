@@ -54,8 +54,23 @@ img {
   border-bottom-right-radius: 25px;
   margin-top: 5px;
 }
+.centre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.modelText {
+  width: 70%;
+  margin: auto;
+}
+.centreCanvas {
+  display: block;
+}
 .transparent {
   background-color: transparent;
+
+  width: 100%;
 }
 .pink {
   background-color: #AFA8BA;
