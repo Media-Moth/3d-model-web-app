@@ -27,6 +27,11 @@ def close_connection(exception):
         db.close()
 
 
+@app.route("/upload")
+def show_upload():
+    return render_template("upload.html")
+
+
 @app.route("/")
 def hello_world():
     results = query_db("SELECT * FROM models")
@@ -37,6 +42,7 @@ def hello_world():
 def show_post(model_id):
     result = query_db("SELECT * FROM models WHERE id=?", (model_id,), one=True)
     return render_template("model.html", result=result)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

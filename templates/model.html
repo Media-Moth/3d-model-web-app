@@ -7,7 +7,6 @@
     <p class="container containertext roundup modelText">{{result[1]}}</p>
     <div class="centre" id="3dcanvas">
     </div>
-        
     <script type="importmap">
         {
             "imports": {
@@ -16,6 +15,7 @@
             }
         }
     </script>
-    <script src="{{ url_for('static', filename='main.js') }}" type="module"></script>
+    <option id="model">{{result[2]}}</option>
+    <script src="{{ url_for('static', filename='modelView.js') }}" type="module"></script>
 <!-- </div> -->
 {% endblock %}

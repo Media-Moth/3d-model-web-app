@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+    <title>3d model web app</title>
+</head>
+
+<body>
+    <div class="w3-bar pink">
+        <a href="/" class="w3-bar-item w3-button">Explore</a>
+        <a href="upload" class="w3-bar-item w3-button">Upload</a>
+    </div>
+
+    <h1 class="centre">Upload</h1>
+    <div class="centre" id="3dcanvas"></div>
+    <form method=post enctype=multipart/form-data class="centre">
+        <input type=file accept=".glb" name=file>
+        <input type=submit value=Upload>
+    </form>
+      
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://esm.sh/three",
+                "three/addons/": "https://esm.sh/three/examples/jsm/"
+            }
+        }
+    </script>
+    <script src="{{ url_for('static', filename='modelUpload.js') }}" type="module"></script>
+</body>
+</html>

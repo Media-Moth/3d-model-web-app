@@ -69,9 +69,10 @@ img {
 }
 .transparent {
   background-color: transparent;
-
-  width: 100%;
 }
 .pink {
   background-color: #AFA8BA;
+}
+html {
+  color: azure;
 }
