@@ -1,9 +1,15 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, request, redirect, url_for, flash
 import sqlite3
+import os
+from werkzeug.utils import secure_filename
 
 DATABASE = 'database.db'
 
 app = Flask(__name__)
+
+UPLOAD_FOLDER = "static\models"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = os.urandom(12)
 
 
 def query_db(query, args=(), one=False):
@@ -26,6 +32,19 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+
+@app.route("/upload", methods=["POST"])
+def upload():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    if file and file.filename.rsplit('.', 1)[1] == 'glb':
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template("upload.html")
+    
 
 @app.route("/upload")
 def show_upload():

@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 var url = window.location;
 url = url.pathname.slice(7)
-console.log(url); // prints model id
+console.log(url); // prints model id, -- do i even need this?
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -22,11 +22,11 @@ function updateModelView()
 {
     const file = input.files[0];
 
+    // deleting everything then reading the light is just easier
+    // doing a special loop to delete everything but the light is not working idk why
     scene.clear();
     const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
     scene.add(light);
-    
-
 
     const loader = new GLTFLoader();
     loader.load(URL.createObjectURL(file), (gltf) => {
@@ -79,7 +79,6 @@ function animate() {
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.02;
     renderer.render( scene, camera );
-
 }
 window.addEventListener('resize', function() {
     renderer.setSize( window.innerWidth / 1.5, window.innerHeight / 1.5);
