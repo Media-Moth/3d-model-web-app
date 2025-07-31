@@ -73,6 +73,10 @@ img {
 .pink {
   background-color: #AFA8BA;
 }
+input {
+  display: block;
+  margin-bottom: 10px;
+}
 html {
   color: azure;
 }
