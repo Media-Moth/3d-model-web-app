@@ -19,26 +19,24 @@
     <p class="centre">.glb files only</p>
     <div class="centre" id="3dcanvas"></div>
     <p class = "centre">thumbnail image will be the current screen when you press upload</p>
-    <form method=post enctype=multipart/form-data class="centre">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="text" name="name">
-            <br>
-            <br>
-            <br>
-            <br>
-        </div>
-        
-        <div>
-            <label for="file">File</label>
-            <input type=file accept=".glb" id="input" name="file">
-        </div>
+    <div class = "centre">
+        <form method=post enctype=multipart/form-data >
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="text" name="name"><br>
+            </div>
+            
+            <div>
+                <label for="file">File</label>
+                <input type=file accept=".glb" id="input" name="file"><br>
+            </div>
 
-        <div>
-            <input type=submit value=Upload>
-        </div>
-    </form>
-      
+            <div>
+                <input type=submit value=Upload>
+            </div>
+        </form>
+    </div>
+        
     <script type="importmap">
         {
             "imports": {

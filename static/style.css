@@ -60,6 +60,12 @@ img {
   align-items: center;
   width: 100%;
 }
+.centreForm {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 .modelText {
   width: 70%;
   margin: auto;

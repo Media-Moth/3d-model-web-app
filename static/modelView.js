@@ -6,9 +6,6 @@ var url = window.location;
 url = url.pathname.slice(7)
 console.log(url); // prints model id
 
-const input = document.querySelector("input");
-input.style.opacity = 0;
-
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 

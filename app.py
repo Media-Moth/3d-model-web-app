@@ -11,7 +11,6 @@ UPLOAD_FOLDER = "static\models"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.urandom(12)
 
-
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
@@ -25,7 +24,6 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
-
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -35,14 +33,28 @@ def close_connection(exception):
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    if 'file' not in request.files:
+    name = request.form['name']
+    if 'file' not in request.files or name == '':
+        print("1")
         return redirect(request.url)
     file = request.files['file']
     if file.filename == '':
+        print("2")
         return redirect(request.url)
+
     if file and file.filename.rsplit('.', 1)[1] == 'glb':
+        # if file is valid
+        db = get_db()
+
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        sql = """INSERT INTO models (name, file, thumbnail)
+        VALUES (?, ?, ?);
+        """
+        query_db(sql, (name, filename, "Suzzanne.jpeg"))
+        db.commit()
+
+
     return render_template("upload.html")
     
 
