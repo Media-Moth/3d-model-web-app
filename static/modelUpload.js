@@ -2,14 +2,10 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-var url = window.location;
-url = url.pathname.slice(7)
-console.log(url); // prints model id, -- do i even need this?
-
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
 const controls = new OrbitControls( camera, renderer.domElement );
 
 renderer.setSize( window.innerWidth / 1.5, window.innerHeight / 1.5);
@@ -17,6 +13,26 @@ renderer.setAnimationLoop( animate );
 
 const input = document.getElementById("input");
 input.addEventListener("change", updateModelView);
+
+var form = document.querySelector("#uploadForm");
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    form = document.querySelector("#uploadForm");
+    var formdata = new FormData(form)
+    renderer.domElement.toBlob((blob) => {
+        // send form data through POST
+        formdata.append('image', blob, `${document.querySelector('#text').value}.png`)
+        console.log(blob);
+        // change this hardcode to something dynamic later
+        fetch("http://127.0.0.1:5000/upload", {
+            method: "POST",
+            body: formdata
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+    });
+});
 
 function updateModelView()
 {
@@ -30,7 +46,7 @@ function updateModelView()
 
     const loader = new GLTFLoader();
     loader.load(URL.createObjectURL(file), (gltf) => {
-    const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true});
+    const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true, side: THREE.DoubleSide});
 
     gltf.scene.traverse((child) => {
         if (child.isMesh) {
@@ -63,6 +79,11 @@ function updateModelView()
 document.getElementById("3dcanvas").appendChild( renderer.domElement );
 renderer.domElement.className = "centreCanvas";
 renderer.domElement.classList.add("rounddown");
+
+// const canvas = renderer.domElement;
+// const imageData = canvas.toDataURL('image/png');
+
+// document.getElementById('image').value = imageData
 
 const geometry = new THREE.TorusKnotGeometry( 1, 0.4, 100, 16 ); 
 const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: false});

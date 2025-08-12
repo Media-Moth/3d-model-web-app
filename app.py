@@ -1,15 +1,19 @@
-from flask import Flask, render_template, g, request, redirect, url_for, flash
+from flask import Flask, render_template, g, request, redirect  #, url_for, flash
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
+import base64
 
 DATABASE = 'database.db'
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "static\models"
+IMAGE_FOLDER = "static\images"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 app.config['SECRET_KEY'] = os.urandom(12)
+
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
@@ -24,6 +28,20 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
+
+def convert_dataURL_to_pngfile(dataURL, name):
+    encoded = dataURL.split(',', 1)[1]
+    try:
+        decoded = base64.b64decode(encoded)
+    except Exception as e:
+        print(f"noooooooooooooo {e}")  
+
+    with open(f"{IMAGE_FOLDER}/{name}.png", "wb") as f:
+        f.write(decoded)
+
+    return True
+
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -34,26 +52,44 @@ def close_connection(exception):
 @app.route("/upload", methods=["POST"])
 def upload():
     name = request.form['name']
+    file = request.files['file']
+
     if 'file' not in request.files or name == '':
         print("1")
         return redirect(request.url)
-    file = request.files['file']
     if file.filename == '':
         print("2")
         return redirect(request.url)
 
     if file and file.filename.rsplit('.', 1)[1] == 'glb':
         # if file is valid
+        print(request.files)
         db = get_db()
+        image = request.files['image']
+        
 
         filename = secure_filename(file.filename)
+        imagename = secure_filename(image.filename)
+
+        print(imagename)
+
+        # print(image.read())
+        # image.seek(0)
+
+
+        # file save does not work for some reason so we write it
+        # file.save(os.path.join(app.config['IMAGE_FOLDER'], imagename))
+        with open(f"{IMAGE_FOLDER}/{name}.png", "wb") as f:
+            f.write(image.read())
+
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+
         sql = """INSERT INTO models (name, file, thumbnail)
         VALUES (?, ?, ?);
         """
-        query_db(sql, (name, filename, "Suzzanne.jpeg"))
+        query_db(sql, (name, filename, imagename))
         db.commit()
-
 
     return render_template("upload.html")
     

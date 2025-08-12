@@ -19,7 +19,7 @@ const loader = new GLTFLoader();
 const model = document.getElementById("model").innerText;
 
 loader.load(`../static/models/${model}`, (gltf) => {
-  const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true});
+  const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true, side: THREE.DoubleSide});
 
   gltf.scene.traverse((child) => {
     if (child.isMesh) {

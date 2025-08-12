@@ -20,7 +20,9 @@
     <div class="centre" id="3dcanvas"></div>
     <p class = "centre">thumbnail image will be the current screen when you press upload</p>
     <div class = "centre">
-        <form method=post enctype=multipart/form-data >
+        <form method=post enctype=multipart/form-data id="uploadForm">
+            <input type="hidden" id="image" name="image"><br>
+
             <div>
                 <label for="name">Name</label>
                 <input type="text" id="text" name="name"><br>
@@ -32,7 +34,8 @@
             </div>
 
             <div>
-                <input type=submit value=Upload>
+                <input type="submit">
+                <!-- <button onclick="upload()">submit</button> -->
             </div>
         </form>
     </div>
