@@ -19,7 +19,7 @@ const loader = new GLTFLoader();
 const model = document.getElementById("model").innerText;
 
 loader.load(`../static/models/${model}`, (gltf) => {
-  const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true, side: THREE.DoubleSide});
+  const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
 
   gltf.scene.traverse((child) => {
     if (child.isMesh) {
@@ -36,20 +36,13 @@ document.getElementById("3dcanvas").appendChild( renderer.domElement );
 renderer.domElement.className = "centreCanvas";
 renderer.domElement.classList.add("rounddown");
 
-const geometry = new THREE.TorusKnotGeometry( 1, 0.4, 100, 16 ); 
-const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true});
-const cube = new THREE.Mesh( geometry, material );
-const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+const light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
 
 scene.add(light);
-// scene.add(cube);
-
 
 camera.position.z = 5;
 
 function animate() {
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.02;
     renderer.render( scene, camera );
 
 }

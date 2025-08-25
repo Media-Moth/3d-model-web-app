@@ -87,3 +87,31 @@ input {
 html {
   color: azure;
 }
+input[type=submit] {
+  padding: 10px;
+  color: azure;
+  background-color: coral;
+  border: none;
+  border-radius: 10px;
+}
+input[type=file] {
+  display: none;
+}
+.file-upload {
+  padding: 10px;
+  color: azure;
+  background-color: coral;
+  border: none;
+  border-radius: 10px;
+}
+.model-button {
+  padding: 10px;
+  color: azure;
+  background-color: coral;
+  border: none;
+  border-radius: 10px;
+}
+.sticky {
+  position: sticky;
+  top: 0;
+}

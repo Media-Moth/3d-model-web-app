@@ -71,11 +71,8 @@ def upload():
         filename = secure_filename(file.filename)
         imagename = secure_filename(image.filename)
 
-        print(imagename)
-
         # print(image.read())
         # image.seek(0)
-
 
         # file save does not work for some reason so we write it
         # file.save(os.path.join(app.config['IMAGE_FOLDER'], imagename))
@@ -83,7 +80,6 @@ def upload():
             f.write(image.read())
 
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
 
         sql = """INSERT INTO models (name, file, thumbnail)
         VALUES (?, ?, ?);

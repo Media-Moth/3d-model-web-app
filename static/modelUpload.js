@@ -46,7 +46,7 @@ function updateModelView()
 
     const loader = new GLTFLoader();
     loader.load(URL.createObjectURL(file), (gltf) => {
-    const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: true, side: THREE.DoubleSide});
+    const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
 
     gltf.scene.traverse((child) => {
         if (child.isMesh) {
@@ -86,9 +86,9 @@ renderer.domElement.classList.add("rounddown");
 // document.getElementById('image').value = imageData
 
 const geometry = new THREE.TorusKnotGeometry( 1, 0.4, 100, 16 ); 
-const material = new THREE.MeshPhongMaterial({color: 0xff00ff, flatShading: false});
+const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: false});
 const cube = new THREE.Mesh( geometry, material );
-const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+const light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
 
 scene.add(light);
 scene.add(cube);

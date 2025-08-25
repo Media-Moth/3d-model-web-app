@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-
-    <title>3d model web app</title>
-</head>
-
-<body>
-    <div class="w3-bar pink">
-        <a href="/" class="w3-bar-item w3-button">Explore</a>
-        <a href="upload" class="w3-bar-item w3-button">Upload</a>
-    </div>
-
+{% extends "main.html" %}
+{% block body %}
     <h1 class="centre">Upload</h1>
     <p class="centre">.glb files only</p>
     <div class="centre" id="3dcanvas"></div>
@@ -29,8 +14,8 @@
             </div>
             
             <div>
-                <label for="file">File</label>
-                <input type=file accept=".glb" id="input" name="file"><br>
+                <label for="input" class="file-upload">Upload File</label>
+                <input type=file accept=".glb" id="input" name="file"><br><br>
             </div>
 
             <div>
@@ -49,5 +34,4 @@
         }
     </script>
     <script src="{{ url_for('static', filename='modelUpload.js') }}" type="module"></script>
-</body>
-</html>
+{% endblock %}
