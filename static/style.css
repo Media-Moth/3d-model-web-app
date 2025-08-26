@@ -105,11 +105,14 @@ input[type=file] {
   border-radius: 10px;
 }
 .model-button {
+  display: block;
+  justify-content: center;
   padding: 10px;
   color: azure;
   background-color: coral;
   border: none;
   border-radius: 10px;
+  width: 100px;
 }
 .sticky {
   position: sticky;

@@ -25,7 +25,7 @@ form.addEventListener("submit", function (e) {
         formdata.append('image', blob, `${document.querySelector('#text').value}.png`)
         console.log(blob);
         // change this hardcode to something dynamic later
-        fetch("http://127.0.0.1:5000/upload", {
+        fetch(window.location.href, {
             method: "POST",
             body: formdata
         })

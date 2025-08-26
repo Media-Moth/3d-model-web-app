@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, redirect  #, url_for, flash
+from flask import Flask, render_template, g, request, redirect, url_for, jsonify
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
@@ -29,19 +29,6 @@ def get_db():
     return db
 
 
-def convert_dataURL_to_pngfile(dataURL, name):
-    encoded = dataURL.split(',', 1)[1]
-    try:
-        decoded = base64.b64decode(encoded)
-    except Exception as e:
-        print(f"noooooooooooooo {e}")  
-
-    with open(f"{IMAGE_FOLDER}/{name}.png", "wb") as f:
-        f.write(decoded)
-
-    return True
-
-
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -56,14 +43,13 @@ def upload():
 
     if 'file' not in request.files or name == '':
         print("1")
-        return redirect(request.url)
+        return redirect(request.url, code=307)
     if file.filename == '':
         print("2")
         return redirect(request.url)
 
     if file and file.filename.rsplit('.', 1)[1] == 'glb':
         # if file is valid
-        print(request.files)
         db = get_db()
         image = request.files['image']
         
@@ -76,7 +62,7 @@ def upload():
 
         # file save does not work for some reason so we write it
         # file.save(os.path.join(app.config['IMAGE_FOLDER'], imagename))
-        with open(f"{IMAGE_FOLDER}/{name}.png", "wb") as f:
+        with open(f"{IMAGE_FOLDER}/{imagename}", "wb") as f:
             f.write(image.read())
 
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -86,7 +72,7 @@ def upload():
         """
         query_db(sql, (name, filename, imagename))
         db.commit()
-
+        return jsonify("True")
     return render_template("upload.html")
     
 
