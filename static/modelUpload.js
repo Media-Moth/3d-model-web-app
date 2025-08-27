@@ -20,44 +20,66 @@ form.addEventListener("submit", function (e) {
     e.preventDefault();
     form = document.querySelector("#uploadForm");
     var formdata = new FormData(form)
-    renderer.domElement.toBlob((blob) => {
+
+    getResizedCanvas(renderer.domElement, 1200, 800).toBlob((blob) => { // 3:2 ratio
         // send form data through POST
         formdata.append('image', blob, `${document.querySelector('#text').value}.png`)
         console.log(blob);
-        // change this hardcode to something dynamic later
         fetch(window.location.href, {
             method: "POST",
             body: formdata
         })
             .then((response) => response.json())
-            .then((json) => console.log(json));
+            .then((url) => window.location = url);
     });
 });
+function getResizedCanvas(canvas,newWidth,newHeight) { // stolen from stack overflow
+    var tmpCanvas = document.createElement('canvas');  // so every thumbnail is saved with the same size
+    tmpCanvas.width = newWidth;                        // page is refreshed shortly after so there should be no memory leaks
+    tmpCanvas.height = newHeight;
+
+    var ctx = tmpCanvas.getContext('2d');
+    ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
+
+    return tmpCanvas;
+}
 
 function updateModelView()
 {
     const file = input.files[0];
 
-    // deleting everything then reading the light is just easier
+    // deleting everything then remaking the light is just easier
     // doing a special loop to delete everything but the light is not working idk why
     scene.clear();
-    const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+    const light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
     scene.add(light);
 
-    const loader = new GLTFLoader();
-    loader.load(URL.createObjectURL(file), (gltf) => {
-    const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
+    new RGBELoader() // define rgbeloader
+        .setPath( '../static/images/modelTextures' )
+        .load( 'royal_esplanade_1k.hdr', function ( texture ) {
 
-    gltf.scene.traverse((child) => {
-        if (child.isMesh) {
-        child.material = material;
-        }
-    });
+            texture.mapping = THREE.EquirectangularReflectionMapping;
 
-    scene.add(gltf.scene);
-    }, undefined, (error) => {
-        console.error('An error happened:', error);
+            scene.background = texture;
+            scene.environment = texture;
+
+		render();
+        const loader = new GLTFLoader();
+        loader.load(URL.createObjectURL(file), (gltf) => {
+            scene.add(gltf.scene);
+        }, undefined, (error) => {
+            console.error('An error happened:', error);
+        });
     });
+    // const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
+
+    // gltf.scene.traverse((child) => {
+    //     if (child.isMesh) {
+    //     child.material = material;
+    //     }
+    // });
+
+    
 }
 // const loader = new GLTFLoader();
 // const model = document.getElementById("model").innerText;

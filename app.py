@@ -43,10 +43,10 @@ def upload():
 
     if 'file' not in request.files or name == '':
         print("1")
-        return redirect(request.url, code=307)
+        return redirect(url_for('uploadSuccess'))
     if file.filename == '':
         print("2")
-        return redirect(request.url)
+        return redirect(url_for('uploadSuccess'))
 
     if file and file.filename.rsplit('.', 1)[1] == 'glb':
         # if file is valid
@@ -72,9 +72,12 @@ def upload():
         """
         query_db(sql, (name, filename, imagename))
         db.commit()
-        return jsonify("True")
+        return redirect(url_for('uploadSuccess'))
     return render_template("upload.html")
-    
+
+@app.route("/uploaded")
+def uploadSuccess():
+    return jsonify(url_for("show_upload"))
 
 @app.route("/upload")
 def show_upload():
