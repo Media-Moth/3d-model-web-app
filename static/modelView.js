@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -13,19 +14,28 @@ renderer.setAnimationLoop( animate );
 
 const loader = new GLTFLoader();
 const model = document.getElementById("model").innerText;
+new RGBELoader() // define rgbeloader
+    .setPath( '../static/images/modelTextures/' )
+    .load( 'royal_esplanade_1k.hdr', function ( texture ) {
 
-loader.load(`../static/models/${model}`, (gltf) => {
-  const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
+        texture.mapping = THREE.EquirectangularReflectionMapping;
 
-  gltf.scene.traverse((child) => {
-    if (child.isMesh) {
-      child.material = material;
-    }
+        scene.background = texture;
+        scene.environment = texture;
+
+  loader.load(`../static/models/${model}`, (gltf) => {
+    // const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
+
+    // gltf.scene.traverse((child) => {
+    //   if (child.isMesh) {
+    //     child.material = material;
+    //   }
+    // });
+
+    scene.add(gltf.scene);
+  }, undefined, (error) => {
+    console.error('An error happened:', error);
   });
-
-  scene.add(gltf.scene);
-}, undefined, (error) => {
-  console.error('An error happened:', error);
 });
 
 document.getElementById("3dcanvas").appendChild( renderer.domElement );

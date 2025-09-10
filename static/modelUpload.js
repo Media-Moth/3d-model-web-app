@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -54,22 +55,11 @@ function updateModelView()
     const light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
     scene.add(light);
 
-    new RGBELoader() // define rgbeloader
-        .setPath( '../static/images/modelTextures' )
-        .load( 'royal_esplanade_1k.hdr', function ( texture ) {
-
-            texture.mapping = THREE.EquirectangularReflectionMapping;
-
-            scene.background = texture;
-            scene.environment = texture;
-
-		render();
-        const loader = new GLTFLoader();
-        loader.load(URL.createObjectURL(file), (gltf) => {
-            scene.add(gltf.scene);
-        }, undefined, (error) => {
-            console.error('An error happened:', error);
-        });
+    const loader = new GLTFLoader();
+    loader.load(URL.createObjectURL(file), (gltf) => {
+        scene.add(gltf.scene);
+    }, undefined, (error) => {
+        console.error('An error happened:', error);
     });
     // const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: true, side: THREE.DoubleSide});
 
@@ -112,6 +102,15 @@ const material = new THREE.MeshPhongMaterial({color: 0x949494, flatShading: fals
 const cube = new THREE.Mesh( geometry, material );
 const light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
 
+new RGBELoader() // define rgbeloader
+    .setPath( '../static/images/modelTextures/' )
+    .load( 'royal_esplanade_1k.hdr', function ( texture ) {
+
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+
+        scene.background = texture;
+        scene.environment = texture;
+    });
 scene.add(light);
 scene.add(cube);
 
@@ -126,3 +125,6 @@ function animate() {
 window.addEventListener('resize', function() {
     renderer.setSize( window.innerWidth / 1.5, window.innerHeight / 1.5);
 });
+function render(){
+    renderer.render(scene, camera);
+}

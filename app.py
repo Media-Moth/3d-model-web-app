@@ -2,7 +2,6 @@ from flask import Flask, render_template, g, request, redirect, url_for, jsonify
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
-import base64
 
 DATABASE = 'database.db'
 
